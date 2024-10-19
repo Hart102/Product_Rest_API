@@ -1,9 +1,9 @@
 require("dotenv").config();
-const userSchema = require("../config/modal")
 const bcrypt = require("bcrypt")
 const jwt = require("jsonwebtoken")
-const salt = 10
 const mongoose = require("mongoose")
+const userSchema = require("../modals/user")
+const salt = 10
 
 const userRegistration = async (req, res) => {
     try {
@@ -34,13 +34,13 @@ const userLogin = async (req, res) => {
         if(error){
             return res.status(400).json({isError: true, message: error.details[0].message.replace(/"/g, "")})
         }
-
         const user = await userSchema.User.findOne({email: value.email})
+
         if(!user){
             return res.status(400).json({ isError: true, message: "User not found!"})
         }
-
         const isMatch = await bcrypt.compare(value.password, user.password)
+
         if(!isMatch){
             return res.status(400).json({ isError: true, message: "Incorrect email or password!"})
         }
@@ -147,8 +147,7 @@ const deleteAddress = async (req, res) => {
             res.json({ isError: false, message: "Address deleted", payload: result.addresses })
         }
     } catch (error) {
-        console.log(error.message)
-        res.json({isError: true, message: "Internal server error"})
+        res.json({ isError: true, message: "Internal server error" })
     }
 }
 
