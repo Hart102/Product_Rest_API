@@ -51,6 +51,32 @@ const deleteCategory = async (req, res) => {
     }
 }
 
-const getAllCategories = async (req, res) => {}
+const getAllCategories = async (req, res) => {
+    try {
+    const result = await categorySchema.category.aggregate([
+      {
+        $lookup: {
+          from: 'products',
+          localField: '_id',
+          foreignField: 'category_id',
+          as: 'categories',
+        },
+      },
+      {
+        $project: {
+          _id: 1,
+          name: 1,
+          status: 1,
+          product_count: { $size: '$categories' },
+        },
+      },
+    ]);
+    res.json({ isError: false, message: '', payload: result });
+
+  } catch (error) {
+    res.status(500).json({ isError: true, message: error.message });
+  }
+
+}
 
 module.exports = { createCategory, editCategory, deleteCategory, getAllCategories }
