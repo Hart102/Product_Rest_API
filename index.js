@@ -8,6 +8,7 @@ const DbConnection = require("./config/mongoos")
 const userRouter = require("./routes/user")
 const productRouter = require("./routes/product")
 const categoryRouter = require("./routes/category")
+const cartRouter = require("./routes/cart")
 
 const PORT = process.env.PORT || 3000;
 const app = express();
@@ -25,6 +26,7 @@ app.get("/", (req, res) => {
 app.use("/api/user", userRouter)
 app.use("/api/product", productRouter)
 app.use("/api/category", categoryRouter)
+app.use("/api/cart", cartRouter)
 
 
 app.listen(PORT, () => {
