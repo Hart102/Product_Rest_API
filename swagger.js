@@ -20,7 +20,7 @@ const options = {
             description: "Local server"
             },
             {
-            url: "<your live url here>",
+            url: "https://ecommerce-express-server-seven.vercel.app/",
             description: "Live server"
             },
         ]
