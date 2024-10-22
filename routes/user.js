@@ -188,7 +188,126 @@ router.patch("/update-profile", Jwt, User.updateProfile)
 router.get("/get-profile", Jwt, User.getUserProfile)
 
 
+/** PUT Methods */
+/**
+ * @openapi
+ * '/api/user/create-address':
+ *  put:
+ *     tags:
+ *     - User Controller
+ *     summary: Create address
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - address_line
+ *               - city
+ *               - state
+ *               - country
+ *               - phone
+ *             properties:
+ *               address_line:
+ *                 type: string
+ *                 example: Gate 6 Mouau
+ *               city:
+ *                 type: string
+ *                 example: Umuahia
+ *               state:
+ *                 type: string
+ *                 example: Abia state
+ *               country:
+ *                 type: string
+ *                 example: Nigeria
+ *               phone:
+ *                 type: string
+ *                 example: 09012345678
+ *     responses:
+ *       200:
+ *         description: Address added successfully
+ *       400:
+ *         description: Invalid input or address limit reached
+ *       404:
+ *         description: User not found
+ *       500:
+ *         description: Internal server error
+ */
+
+
+/** PUT Methods */
+/**
+ * @openapi
+ * '/api/user/create-address':
+ *  put:
+ *     tags:
+ *     - User Controller
+ *     summary: Create User address
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - address_line
+ *               - city
+ *               - state
+ *               - country
+ *               - phone
+ *             properties:
+ *               address_line:
+ *                 type: string
+ *                 example: Gate 6 Mouau
+ *               city:
+ *                 type: string
+ *                 example: Umuahia
+ *               state:
+ *                 type: string
+ *                 example: Abia state
+ *               country:
+ *                 type: string
+ *                 example: Nigeria
+ *               phone:
+ *                 type: string
+ *                 example: 09012345678
+ *     responses:
+ *       200:
+ *         description: Address added successfully
+ *       400:
+ *         description: Invalid input or address limit reached
+ *       404:
+ *         description: User not found
+ *       500:
+ *         description: Internal server error
+ */
 router.put("/create-address", Jwt, User.createAddress)
+
+
+/** DELETE Methods */
+/**
+ * @openapi
+ * '/api/user/delete-address/{id}':
+ *  delete:
+ *     tags:
+ *     - User Controller
+ *     summary: Delete a user's address
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: Address ID
+ *     responses:
+ *       200:
+ *         description: Address deleted
+ *       404:
+ *         description: Address not found
+ *       500:
+ *         description: Internal server error
+ */
 router.delete("/delete-address/:id", Jwt, User.deleteAddress)
 
 

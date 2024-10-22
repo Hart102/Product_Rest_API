@@ -93,7 +93,7 @@ const editProduct = async (req, res) => {
                         }, { new: true })
 
                         if(product){
-                            res.json({ isError: false, message: "Product updated successfully", payload: product })
+                            res.status(200).json({ isError: false, message: "Product updated successfully", payload: product })
                         }
                     }
                 }
@@ -111,11 +111,11 @@ const editProduct = async (req, res) => {
             }, { new: true })
 
             if(product){
-                res.json({ isError: false, message: "Product updated successfully", payload: product })
+                res.status(200).json({ isError: false, message: "Product updated successfully", payload: product })
             }
         }
     } catch (error) {
-        res.json({ isError: true, message: "Internal server error" })
+        res.status(500).json({ isError: true, message: "Internal server error" })
     }
 }
 
@@ -150,10 +150,10 @@ const getAllProducts = async (req, res) => {
             { $sort: { createdAt: -1 } }
         ])
         if(result){
-            res.json({ isError: false, message: "Products fetched successfully", payload: result })
+            res.status(200).json({ isError: false, message: "Products fetched successfully", payload: result })
         }
     } catch (error) {
-        res.json({ isError: true, message: "Internal server error" })
+        res.status(500).json({ isError: true, message: "Internal server error" })
     }
 }
 
@@ -243,7 +243,7 @@ const getProductsByCategory = async (req, res) => {
         },
       ]);
 
-      res.json({ isError: false, message: '', payload: result });
+      res.status(200).json({ isError: false, message: '', payload: result });
     } else {
       res.status(404).json({ isError: true, message: 'No category found with the specified name' });
     }
