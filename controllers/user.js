@@ -21,7 +21,7 @@ const userRegistration = async (req, res) => {
         })
 
         await user.save()
-        res.status(201).json({ isError: false, message: "User Registration Successful!", payload: user})
+        res.status(200).json({ isError: false, message: "User Registration Successful!", payload: user})
 
     } catch (error) {
         res.json({isError: true, message: "Internal server error"})
