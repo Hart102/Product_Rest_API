@@ -14,11 +14,7 @@ const { swaggerDocs } = require("./swagger")
 const PORT = process.env.PORT || 3000;
 const app = express();
 
-app.use(cors({
-  origin: "https://product-rest-api-dqv9.onrender.com/",
-  methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
-  allowedHeaders: "Content-Type, Authorization"
-}));
+app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
