@@ -37,6 +37,13 @@ const Jwt = require("../config/jwt")
  *              password:
  *                type: string
  *                default: 123456
+ *     responses:
+ *      400:
+ *        description: Field Missing
+ *      200:
+ *        description: Successful
+ *      500:
+ *        description: Server Error
  */
 router.post("/register", User.userRegistration)
 
