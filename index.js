@@ -14,7 +14,11 @@ const { swaggerDocs } = require("./swagger")
 const PORT = process.env.PORT || 3000;
 const app = express();
 
-app.use(cors({origin: "*"}))
+app.use(cors({
+  origin: "*",
+  methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+  allowedHeaders: "Content-Type, Authorization"
+}));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
