@@ -20,7 +20,7 @@ const options = {
             description: "Local server"
             },
             {
-            url: "https://product-rest-api-dqv9.onrender.com/",
+            url: "https://product-rest-api-dqv9.onrender.com/api/",
             description: "Live server"
             },
         ]
