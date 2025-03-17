@@ -1,7 +1,8 @@
 require("dotenv").config();
 
 const mongoose = require("mongoose");
-const mongoURI = `mongodb+srv://${process.env.DATABASE_USERNAME}:${process.env.DATABASE_PASSWORD}@testcluster.incqu.mongodb.net/testApp?retryWrites=true&`
+// mongodb+srv://hartongit102:123@initialcluster.yhdfy.mongodb.net/?retryWrites=true&w=majority&appName=initialCluster
+const mongoURI = `mongodb+srv://${process.env.DATABASE_USERNAME}:${process.env.DATABASE_PASSWORD}@initialCluster.yhdfy.mongodb.net/devRecruit?retryWrites=true&`
 
 
 const DbConnection = async () => {

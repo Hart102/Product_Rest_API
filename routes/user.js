@@ -47,6 +47,24 @@ const Jwt = require("../config/jwt")
 router.put("/register", User.userRegistration)
 
 
+/**
+ * @openapi
+ * '/api/user/verify-email':
+ *  get:
+ *     tags:
+ *     - User Controller
+ *     summary: Verify user's email
+ *     parameters:
+ *       - name: token
+ *         in: query
+ *         required: true
+ *         description: JWT token for email verification
+ *         schema:
+ *           type: string
+ */
+
+router.get("/verify-email", User.verifyEmail)
+
 /** POST Methods */
 /**
  * @openapi

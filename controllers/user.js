@@ -4,29 +4,99 @@ const jwt = require("jsonwebtoken")
 const mongoose = require("mongoose")
 const userSchema = require("../modals/user")
 const salt = 10
+const nodemailer = require("nodemailer")
+
+
+const sendVerificationEmail = async (email, token) => {
+    const transporter = nodemailer.createTransport({
+        service: "gmail",
+        auth: {
+            user: process.env.EMAIL_USERNAME,
+            pass: process.env.EMAIL_PASSWORD  
+        }
+    });
+
+    const verificationLink = `${process.env.CLIENT_URL}/api/user/verify-email?token=${token}`;
+
+    const mailOptions = {
+        from: process.env.EMAIL_USERNAME,
+        to: email,
+        subject: "Verify Your Email",
+        html: `<p>Please click the link below to verify your email:</p>
+               <a href="${verificationLink}">${verificationLink}</a>`
+    };
+
+    await transporter.sendMail(mailOptions);
+};
+
+
+const verifyEmail = async (req, res) => {
+    try {
+        const { token } = req.query;
+        if (!token) {
+            return res.status(400).json({ isError: true, message: "Invalid or missing token" });
+        }
+
+        const decoded = jwt.verify(token, process.env.ACCESS_TOKEN);
+        const user = await userSchema.User.findOne({ email: decoded.email });
+
+        if (!user) {
+            return res.status(400).json({ isError: true, message: "User not found" });
+        }
+
+        if (user.isVerified) {
+            return res.status(400).json({ isError: true, message: "Email is already verified" });
+        }
+
+        user.isVerified = true;
+        await user.save();
+        console.log(user)
+
+        res.status(200).json({ isError: false, message: "Email verified successfully!" });
+
+    } catch (error) {
+        res.status(500).json({ isError: true, message: "Invalid or expired token" });
+    }
+};
+
+
 
 const userRegistration = async (req, res) => {
     try {
-        const {error, value} = userSchema.validateRegistrationForm(req.body)
-        if(error){
-            return res.status(400).json({isError: true, message: error.details[0].message.replace(/"/g, "")})
+        const { error, value } = userSchema.validateRegistrationForm(req.body);
+        if (error) {
+            return res.status(400).json({ isError: true, message: error.details[0].message.replace(/"/g, "") });
         }
-        const hashedPassword = await bcrypt.hash(value.password, salt)
+
+        const hashedPassword = await bcrypt.hash(value.password, 10);
 
         const user = new userSchema.User({
             firstname: value.firstname.toLowerCase().trim(),
             lastname: value.lastname.toLowerCase().trim(),
             email: value.email,
-            password: hashedPassword
-        })
+            password: hashedPassword,
+            isVerified: false
+        });
 
-        await user.save()
-        res.status(200).json({ isError: false, message: "User Registration Successful!", payload: user})
+        await user.save();
+
+        const verificationToken = jwt.sign({ email: user.email }, process.env.ACCESS_TOKEN, { expiresIn: "1h" });
+
+        await sendVerificationEmail(user.email, verificationToken);
+
+        res.status(200).json({
+            isError: false,
+            message: "User Registration Successful! Please check your email to verify your account.",
+            payload: user
+        });
 
     } catch (error) {
-        res.json({isError: true, message: "Internal server error"})
+        console.log(error)
+        res.status(500).json({ isError: true, message: "Internal server error" });
     }
-}
+};
+
+
 
 const userLogin = async (req, res) => {
     try {
@@ -153,6 +223,7 @@ const deleteAddress = async (req, res) => {
 
 module.exports = {
     userRegistration,
+    verifyEmail,
     userLogin,
     updateProfile,
     getUserProfile,

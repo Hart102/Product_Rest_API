@@ -5,7 +5,7 @@ const joi = require("joi")
 const user = new Schema(
   {
     firstname: { type: String, required: true },
-    lastname: { type: String, required: true, unique: true },
+    lastname: { type: String, required: true },
     email: { type: String, required: true, minlength: 6 },
     password: { type: String, default: "" },
     addresses: [{
@@ -15,7 +15,8 @@ const user = new Schema(
       country: { type: String, required: true },
       phone: { type: String }
     }],
-    user_role: {type: String, default: "user"}
+    user_role: {type: String, default: "user"},
+    isVerified: { type: Boolean, default: false },
   },
   { timestamps: true }
 );
