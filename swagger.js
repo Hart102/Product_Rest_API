@@ -25,7 +25,6 @@ const options = {
             }
         ]
     },
-    // looks for configuration in specified directories
     apis: ['./routes/*.js'],
 }
 

@@ -8,10 +8,11 @@ const Jwt = require("../config/jwt")
 /**
  * @openapi
  * '/api/user/register':
- *  put:
+ *  post:
  *     tags:
- *     - User Controller
+ *     - UserController
  *     summary: Create a user
+ *     operationId: registerUser
  *     requestBody:
  *      required: true
  *      content:
@@ -29,22 +30,15 @@ const Jwt = require("../config/jwt")
  *                default: tim
  *              lastname:
  *                type: string
- *                defualt: jerry
+ *                default: jerry
  *              email:
  *                type: string
  *                default: tim@mail.com
  *              password:
  *                type: string
  *                default: 123456
- *     responses:
- *      400:
- *        description: Field Missing
- *      200:
- *        description: Successful
- *      500:
- *        description: Server Error
  */
-router.put("/register", User.userRegistration)
+router.post("/register", User.userRegistration)
 
 
 /**
